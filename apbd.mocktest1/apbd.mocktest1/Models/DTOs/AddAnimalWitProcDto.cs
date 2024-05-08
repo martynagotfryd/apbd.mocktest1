@@ -6,7 +6,7 @@ public class AddAnimalWitProcDto
     public string Type { get; set; } = String.Empty;
     public DateTime AdmissionDate { get; set; }
     public int OwnerId { get; set; }
-    public List<ProcedureAnimalDto> Procedures { get; set; } = null!;
+    public List<ProcedureAnimalDto> Procedures { get; set; } = new List<ProcedureAnimalDto>();
 }
 
 public class ProcedureAnimalDto

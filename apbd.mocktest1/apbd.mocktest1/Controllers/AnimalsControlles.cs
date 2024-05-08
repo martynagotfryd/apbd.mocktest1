@@ -25,6 +25,7 @@ namespace apbd.mocktest1.Controllers
             {
                 return NotFound();
             }
+            
             var animal = await _animalsRepository.GetAnimalById(id);
             return Ok(animal);
         }
@@ -34,23 +35,31 @@ namespace apbd.mocktest1.Controllers
         {
             if (!await _animalsRepository.DoesOwnerExist(addAnimalDto.OwnerId))
             {
-                return BadRequest();
+                return NotFound();
             }
 
             await _animalsRepository.AddAnimal(addAnimalDto);
-            return Ok();
+            return Created();
         }
         
-        [HttpPost]
-        public async Task<IActionResult> AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
-        {
-            if (!await _animalsRepository.DoesOwnerExist(addAnimalWitProcDto.OwnerId) || !await _animalsRepository.DoesProcedureExist(addAnimalWitProcDto.Procedures.))
-            {
-                return BadRequest();
-            }
-
-            await _animalsRepository.AddAnimalWithProc(addAnimalWitProcDto);
-            return Ok();
-        }
+        // [HttpPost]
+        // public async Task<IActionResult> AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
+        // {
+        //     if (!await _animalsRepository.DoesOwnerExist(addAnimalWitProcDto.OwnerId))
+        //     {
+        //         return BadRequest();
+        //     }
+        //
+        //     foreach (var procedure in addAnimalWitProcDto.Procedures)
+        //     {
+        //         if (!await _animalsRepository.DoesProcedureExist(procedure.Id))
+        //         {
+        //             return BadRequest();
+        //         }
+        //     }
+        //
+        //     await _animalsRepository.AddAnimalWithProc(addAnimalWitProcDto);
+        //     return Ok();
+        // }
     }
 }

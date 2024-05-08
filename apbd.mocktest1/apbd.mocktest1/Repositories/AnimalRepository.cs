@@ -156,11 +156,20 @@ public class AnimalRepository : IAnimalRepository
 
         command.Connection = connection;
         command.CommandText = query;
-        command.Parameters.AddWithValue("@NAME");
+        command.Parameters.AddWithValue("@NAME", addAnimalDto.Name);
+        command.Parameters.AddWithValue("@TYPE", addAnimalDto.Type);
+        command.Parameters.AddWithValue("@ADMISSIONDATE", addAnimalDto.AdmissionDate);
+        command.Parameters.AddWithValue("@OWNERID", addAnimalDto.OwnerId);
+
+        await connection.OpenAsync();
+        
+        var id = await command.ExecuteScalarAsync();
+        
+        if (id is null) throw new Exception();
     }
 
-    public async Task AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
-    {
-        throw new NotImplementedException();
-    }
+    // public async Task AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
