@@ -8,6 +8,6 @@ public interface IAnimalRepository
     Task<AnimalDto> GetAnimalById(int id);
     Task<bool> DoesOwnerExist(int id);
     Task<bool> DoesProcedureExist(int id);
-    Task<>
-
+    Task AddAnimal(AddAnimalDto addAnimalDto);
+    Task AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto);
 }

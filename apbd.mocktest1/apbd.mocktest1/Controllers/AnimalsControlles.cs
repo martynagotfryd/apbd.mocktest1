@@ -28,5 +28,29 @@ namespace apbd.mocktest1.Controllers
             var animal = await _animalsRepository.GetAnimalById(id);
             return Ok(animal);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAnimal(AddAnimalDto addAnimalDto)
+        {
+            if (!await _animalsRepository.DoesOwnerExist(addAnimalDto.OwnerId))
+            {
+                return BadRequest();
+            }
+
+            await _animalsRepository.AddAnimal(addAnimalDto);
+            return Ok();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
+        {
+            if (!await _animalsRepository.DoesOwnerExist(addAnimalWitProcDto.OwnerId) || !await _animalsRepository.DoesProcedureExist(addAnimalWitProcDto.Procedures.))
+            {
+                return BadRequest();
+            }
+
+            await _animalsRepository.AddAnimalWithProc(addAnimalWitProcDto);
+            return Ok();
+        }
     }
 }

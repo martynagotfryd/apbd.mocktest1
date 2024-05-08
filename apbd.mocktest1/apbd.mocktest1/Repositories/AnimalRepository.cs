@@ -108,6 +108,59 @@ public class AnimalRepository : IAnimalRepository
 
         return animalDto;
     }
-    
-    
+
+    public async Task<bool> DoesOwnerExist(int id)
+    {
+        var query = "SELECT 1 FROM Owner WHERE Owner.ID = @ID";
+
+        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
+        await using SqlCommand command = new SqlCommand();
+
+        command.Connection = connection;
+        command.CommandText = query;
+        command.Parameters.AddWithValue("@ID", id);
+
+        await connection.OpenAsync();
+
+        var res = await command.ExecuteScalarAsync();
+
+        return res is not null;
+    }
+
+    public async Task<bool> DoesProcedureExist(int id)
+    {
+        var query = "SELECT 1 FROM [Procedure] p WHERE p.ID = @ID";
+
+        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
+        await using SqlCommand command = new SqlCommand();
+
+        command.Connection = connection;
+        command.CommandText = query;
+        command.Parameters.AddWithValue("@ID", id);
+
+        await connection.OpenAsync();
+
+        var res = await command.ExecuteScalarAsync();
+        
+        return res is not null;
+    }
+
+    public async Task AddAnimal(AddAnimalDto addAnimalDto)
+    {
+        var query = "INSERT INTO Animal VALUES (@NAME, @TYPE, @ADMISSIONDATE, @OWNERID)";
+
+        await using SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Default"));
+        await using SqlCommand command = new SqlCommand();
+
+        await connection.OpenAsync();
+
+        command.Connection = connection;
+        command.CommandText = query;
+        command.Parameters.AddWithValue("@NAME");
+    }
+
+    public async Task AddAnimalWithProc(AddAnimalWitProcDto addAnimalWitProcDto)
+    {
+        throw new NotImplementedException();
+    }
 }
